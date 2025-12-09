@@ -58,11 +58,11 @@ public class EventoModel implements Serializable {
 
     @OneToOne
     @JoinColumn(
-            name = "eventoHorarioId",
+            name = "eventoDiaHorarioId",
             referencedColumnName = "id",
             nullable = false,
             unique = true)
-    private EventoHorarioModel eventoHorarioModel;
+    private EventoDiaHorarioModel eventoDiaHorarioModel;
 
     @ManyToOne
     @JoinColumn(
