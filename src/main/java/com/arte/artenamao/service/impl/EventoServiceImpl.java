@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EventoServiceImpl implements EventoService {
@@ -31,6 +33,11 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public List<EventoModel> findAll() {
         return eventoRepository.findAll();
+    }
+
+    @Override
+    public Optional<EventoModel> findById(UUID id) {
+        return eventoRepository.findById(id);
     }
 
     @Transactional
