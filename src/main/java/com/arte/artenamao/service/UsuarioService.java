@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface UsuarioService {
     // CREATE
-    UsuarioResponseDto createUsuario(UsuarioRecordDto dto);
+    UsuarioResponseDto save(UsuarioRecordDto dto);
 
     // READ
     UsuarioResponseDto findById(UUID id);
@@ -18,10 +18,10 @@ public interface UsuarioService {
     List<UsuarioResponseDto> findAll();
 
     // UPDATE
-    UsuarioResponseDto updateUsuario(UUID id, UsuarioRecordDto dto);
+    UsuarioResponseDto update(UUID id, UsuarioRecordDto dto);
 
     // DELETE
-    void deleteUsuario(UUID id);
+    void delete(UUID id);
 
     // Métodos auxiliares
     boolean existsById(UUID id);

@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/eventos")
+@CrossOrigin(origins = "*")
 public class EventoController {
     Logger logger = LogManager.getLogger(EventoController.class);
     
