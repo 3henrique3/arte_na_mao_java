@@ -9,14 +9,20 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "EventoHorario")
-public class EventoHorarioModel implements Serializable {
+@Table(name = "evento_dia_horario")
+public class EventoDiaHorarioModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(nullable = false)
+    private Integer diaInicio;
+
+    @Column(nullable = false)
+    private Integer diaFim;
 
     @Column(nullable = false)
     private Integer horaInicio;
@@ -30,6 +36,6 @@ public class EventoHorarioModel implements Serializable {
     @Column(nullable = false)
     private Integer minutoFim;
 
-    @OneToOne(mappedBy = "eventoHorarioModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "eventoDiaHorarioModel", cascade = CascadeType.ALL, orphanRemoval = true)
     private EventoModel eventoModel;
 }
