@@ -65,7 +65,7 @@ public class ClienteModel implements Serializable {
             unique = true)
     private UsuarioModel usuarioModel;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "enderecoId",
             referencedColumnName = "id",

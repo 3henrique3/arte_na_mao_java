@@ -1,15 +1,15 @@
 package com.arte.artenamao.service.impl;
 
-import com.arte.artenamao.dtos.EnderecoRecordDto;
 import com.arte.artenamao.dtos.UsuarioRecordDto;
-import com.arte.artenamao.enums.TipoUsuarioEnum;
+import com.arte.artenamao.dtos.UsuarioResponseDto;
+import com.arte.artenamao.mappers.ArtistaMapper;
+import com.arte.artenamao.mappers.ClienteMapper;
+import com.arte.artenamao.mappers.EnderecoMapper;
+import com.arte.artenamao.mappers.UsuarioMapper;
 import com.arte.artenamao.model.ArtistaModel;
 import com.arte.artenamao.model.ClienteModel;
 import com.arte.artenamao.model.EnderecoModel;
 import com.arte.artenamao.model.UsuarioModel;
-import com.arte.artenamao.repository.ArtistaRepository;
-import com.arte.artenamao.repository.ClienteRepository;
-import com.arte.artenamao.repository.EnderecoRepository;
 import com.arte.artenamao.repository.UsuarioRepository;
 import com.arte.artenamao.service.UsuarioService;
 import org.springframework.stereotype.Service;
@@ -21,28 +21,36 @@ import java.util.UUID;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
-    private final ClienteRepository clienteRepository;
-    private final ArtistaRepository artistaRepository;
+    private final UsuarioMapper usuarioMapper;
+    private final ClienteMapper clienteMapper;
+    private final ArtistaMapper artistaMapper;
+    private final EnderecoMapper enderecoMapper;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, ClienteRepository clienteRepository, ArtistaRepository artistaRepository) {
-        this.usuarioRepository = usuarioRepository;
-        this.clienteRepository = clienteRepository;
-        this.artistaRepository = artistaRepository;
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository1, UsuarioMapper usuarioMapper, ClienteMapper clienteMapper, ArtistaMapper artistaMapper, EnderecoMapper enderecoMapper){
+        this.usuarioRepository = usuarioRepository1;
+        this.usuarioMapper = usuarioMapper;
+        this.clienteMapper = clienteMapper;
+        this.artistaMapper = artistaMapper;
+        this.enderecoMapper = enderecoMapper;
     }
 
     @Transactional
     @Override
-    public UsuarioModel createUsuario(UsuarioRecordDto dto) {
-        UsuarioModel usuario = criarUsuarioBase(dto);
-        usuario = usuarioRepository.save(usuario);
+    public UsuarioResponseDto createUsuario(UsuarioRecordDto dto) {
+        UsuarioModel usuario = usuarioMapper.toEntity(dto);
+        EnderecoModel endereco = enderecoMapper.toEntity(dto.endereco());
 
-        if(usuario.getTipoUsuarioEnum() == TipoUsuarioEnum.CLIENTE) {
-            criarCliente(usuario, dto);
-        } else if (usuario.getTipoUsuarioEnum() == TipoUsuarioEnum.ARTISTA){
-            criarArtista(usuario, dto);
+        if(dto.isCliente()){
+            ClienteModel cliente = clienteMapper.toEntity(dto, usuario);
+            cliente.setEnderecoModel(endereco);
+            usuario.setClienteModel(cliente);
+        } else if (dto.isArtista()) {
+            ArtistaModel artista = artistaMapper.toEntity(dto, usuario);
+            artista.setEnderecoModel(endereco);
+            usuario.setArtistaModel(artista);
         }
 
-        return usuario;
+        return usuarioMapper.toDto(usuario);
     }
 
     @Override
@@ -54,55 +62,4 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioModel findById(UUID id) {
         return null;
     }
-
-    @Transactional
-    private UsuarioModel criarUsuarioBase(UsuarioRecordDto dto) {
-        UsuarioModel usuario = new UsuarioModel();
-        usuario.setEmail(dto.email());
-        usuario.setSenha(dto.senha());
-        usuario.setTipoUsuarioEnum(dto.tipoUsuarioEnum());
-        return usuario;
-    }
-
-    @Transactional
-    private void criarCliente(UsuarioModel usuario, UsuarioRecordDto dto) {
-        ClienteModel cliente = new ClienteModel();
-        cliente.setUsuarioModel(usuario);
-        cliente.setNome(dto.nome());
-        cliente.setCpf(dto.cpf());
-        cliente.setGeneroUsuarioEnum(dto.genero());
-        cliente.setTelefone(dto.telefone());
-        cliente.setDataNascimento(dto.dataNascimento());
-        cliente.setEnderecoModel(mapearEndereco(dto.endereco()));
-
-        clienteRepository.save(cliente);
-    }
-
-    @Transactional
-    private void criarArtista(UsuarioModel usuario, UsuarioRecordDto dto) {
-        ArtistaModel artista = new ArtistaModel();
-        artista.setUsuarioModel(usuario);
-        artista.setNome(dto.nome());
-        artista.setCpf(dto.cpf());
-        artista.setCnpj(dto.cnpj());
-        artista.setGeneroUsuarioEnum(dto.genero());
-        artista.setTelefone(dto.telefone());
-        artista.setDataNascimento(dto.dataNascimento());
-        artista.setEnderecoModel(mapearEndereco(dto.endereco()));
-
-        artistaRepository.save(artista);
-    }
-
-    private EnderecoModel mapearEndereco(EnderecoRecordDto dto) {
-        EnderecoModel endereco = new EnderecoModel();
-        endereco.setLogradouro(dto.logradouro());
-        endereco.setBairro(dto.bairro());
-        endereco.setNumero(dto.numero());
-        endereco.setCidade(dto.cidade());
-        endereco.setEstado(dto.estado());
-        endereco.setPais(dto.pais());
-        return endereco;
-    }
-
-
 }
