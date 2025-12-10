@@ -70,7 +70,7 @@ public class ArtistaModel implements Serializable {
     @OneToOne(mappedBy = "artistaModel", cascade = CascadeType.ALL, orphanRemoval = true)
     private EventoModel eventoModel;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "enderecoId",
             referencedColumnName = "id",
