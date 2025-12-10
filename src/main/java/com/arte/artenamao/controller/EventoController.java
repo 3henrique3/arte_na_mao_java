@@ -45,5 +45,22 @@ public class EventoController {
     }
 
     @PutMapping("/atualizar-evento/{eventoId}")
-    public ResponseEntity<Object> updateEvento(@PathVariable(value = "eventoId"))
+    public ResponseEntity<Object> updateEvento(@PathVariable(value = "eventoId") UUID eventoId, @RequestBody EventoRecordDto eventoRecordDto) {
+        logger.debug("PUT: update concluído", eventoId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(eventoService.update(eventoService.findById(eventoId).get(), eventoRecordDto));
+    }
+
+    @PatchMapping("/patch/{eventoId}")
+    public ResponseEntity<Object> patchEvento(@PathVariable(value = "eventoId") UUID eventoId, @RequestBody EventoRecordDto eventoRecordDto){
+        logger.debug("PATCH: Patch concluído", eventoId);
+        return ResponseEntity.status(HttpStatus.OK).body(eventoService.patch(eventoService.findById(eventoId).get(), eventoRecordDto));
+    }
+
+    @DeleteMapping("/delete/{eventoId}")
+    public ResponseEntity<Object> deleteEvento(@PathVariable(value = "eventoId") UUID eventoId) {
+        eventoService.delete(eventoService.findById(eventoId).get());
+        logger.debug("Delete: Delete concluído", eventoId);
+        return ResponseEntity.noContent().build();
+    }
 }

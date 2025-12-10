@@ -24,6 +24,9 @@ public class ObraModel implements Serializable {
     private UUID id;
 
     @Column(nullable = false)
+    private String titulo;
+
+    @Column(nullable = false)
     private String descricao;
 
     @Column(nullable = false)
