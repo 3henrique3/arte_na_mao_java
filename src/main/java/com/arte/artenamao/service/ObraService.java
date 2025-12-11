@@ -1,8 +1,6 @@
 package com.arte.artenamao.service;
 
-import com.arte.artenamao.dtos.EventoRecordDto;
 import com.arte.artenamao.dtos.ObraRecordDto;
-import com.arte.artenamao.model.EventoModel;
 import com.arte.artenamao.model.ObraModel;
 
 import java.util.List;
@@ -12,11 +10,11 @@ import java.util.UUID;
 public interface ObraService {
     public ObraRecordDto save(ObraRecordDto dto);
 
-    List<ObraModel> findAll();
+    List<ObraRecordDto> findAll();
 
-    Optional<ObraModel> findById(UUID obraId);
+    Optional<ObraRecordDto> findById(UUID obraId);
 
-    ObraModel update(ObraModel ObraModel, ObraRecordDto obraRecordDto);
+    ObraRecordDto update(UUID id, ObraRecordDto obraRecordDto);
 
-    void delete(ObraModel ObraModel);
+    void delete(UUID id);
 }

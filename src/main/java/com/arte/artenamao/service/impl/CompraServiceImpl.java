@@ -2,6 +2,7 @@ package com.arte.artenamao.service.impl;
 
 import com.arte.artenamao.dtos.AtualizarCompraDto;
 import com.arte.artenamao.dtos.CompraRecordDto;
+import com.arte.artenamao.mappers.CompraMapper;
 import com.arte.artenamao.model.CompraModel;
 import com.arte.artenamao.repository.CompraRepository;
 import com.arte.artenamao.service.CompraService;
@@ -22,9 +23,11 @@ public class CompraServiceImpl implements CompraService {
     Logger logger = LogManager.getLogger(CompraServiceImpl.class);
 
     private final CompraRepository compraRepository;
+    private final CompraMapper compraMapper;
 
-    public CompraServiceImpl(CompraRepository compraRepository) {
+    public CompraServiceImpl(CompraRepository compraRepository, CompraMapper compraMapper) {
         this.compraRepository = compraRepository;
+        this.compraMapper = compraMapper;
     }
 
     @Override
@@ -36,8 +39,7 @@ public class CompraServiceImpl implements CompraService {
     @Transactional
     @Override
     public CompraModel save(CompraRecordDto compraRecordDto) {
-        var compraModel = new CompraModel();
-        BeanUtils.copyProperties(compraRecordDto, compraModel);
+        var compraModel = compraMapper.toEntity(compraRecordDto);
 
         compraModel.setDataCriacao(LocalDateTime.now(ZoneId.of("America/Recife")));
         compraModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("America/Recife")));
