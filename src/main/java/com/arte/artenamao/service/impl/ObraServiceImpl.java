@@ -5,11 +5,13 @@ import com.arte.artenamao.mappers.ObraMapper;
 import com.arte.artenamao.model.ObraModel;
 import com.arte.artenamao.repository.ObraRepository;
 import com.arte.artenamao.service.ObraService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class ObraServiceImpl implements ObraService {
 
     private final ObraRepository obraRepository;
