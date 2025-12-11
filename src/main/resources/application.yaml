@@ -21,10 +21,10 @@ spring:
     # - useSSL=false → evita warning
     # - allowPublicKeyRetrieval=true → necessário em algumas instalações do MySQL
     # - serverTimezone=UTC → evita problemas de timezone
-    url: jdbc:mysql://localhost:3306/artenamao?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: URL JDBC
 
     username: root  # Usuário do banco
-    password: 1234  # Senha do banco
+    password: Your password  # Senha do banco
     driver-class-name: com.mysql.cj.jdbc.Driver  # Driver JDBC do MySQL
 
     hikari:
@@ -52,3 +52,4 @@ spring:
       descriptor:
         sql:
           BasicBinder: trace  # Exibe os parâmetros que são inseridos nas consultas SQL para melhor rastreamento
+
