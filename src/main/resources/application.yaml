@@ -21,7 +21,7 @@ spring:
     # - useSSL=false → evita warning
     # - allowPublicKeyRetrieval=true → necessário em algumas instalações do MySQL
     # - serverTimezone=UTC → evita problemas de timezone
-    url: URL JDBC
+    url: jdbc:mysql://mysql:3306/artenamao?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
 
     username: root  # Usuário do banco
     password: Your password  # Senha do banco
@@ -52,4 +52,5 @@ spring:
       descriptor:
         sql:
           BasicBinder: trace  # Exibe os parâmetros que são inseridos nas consultas SQL para melhor rastreamento
+
 
