@@ -45,14 +45,14 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.OK).body(eventoService.findById(eventoId));
     }
 
-    @PutMapping("/atualizar-evento/{eventoId}")
+    @PutMapping("/{eventoId}")
     public ResponseEntity<Object> updateEvento(@PathVariable(value = "eventoId") UUID eventoId, @RequestBody EventoRecordDto eventoRecordDto) {
         logger.debug("PUT: update concluído", eventoId);
 
         return ResponseEntity.status(HttpStatus.OK).body(eventoService.update(eventoService.findById(eventoId).get(), eventoRecordDto));
     }
 
-    @PatchMapping("/{eventoId}")
+    @PatchMapping("/status/{eventoId}")
     public ResponseEntity<Object> patchEvento(@PathVariable(value = "eventoId") UUID eventoId, @RequestBody EventoRecordDto eventoRecordDto){
         logger.debug("PATCH: Patch concluído", eventoId);
         return ResponseEntity.status(HttpStatus.OK).body(eventoService.patch(eventoService.findById(eventoId).get(), eventoRecordDto));

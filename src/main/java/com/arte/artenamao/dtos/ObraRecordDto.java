@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public record ObraRecordDto(
 
-        @NotBlank(message = "A descrição é obrigatória.")
-        String nome,
+        @NotBlank(message = "O título é obrigatória.")
+        String titulo,
 
         @NotBlank(message = "A descrição é obrigatória.")
         @Size(min = 3, max = 255, message = "A descrição deve ter entre 3 e 255 caracteres.")

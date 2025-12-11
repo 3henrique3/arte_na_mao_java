@@ -2,6 +2,7 @@ package com.arte.artenamao.service.impl;
 
 import com.arte.artenamao.dtos.EventoRecordDto;
 import com.arte.artenamao.mappers.EnderecoMapper;
+import com.arte.artenamao.mappers.EventoMapper;
 import com.arte.artenamao.model.EnderecoModel;
 import com.arte.artenamao.model.EventoModel;
 import com.arte.artenamao.repository.EventoRepository;
@@ -22,12 +23,14 @@ import java.util.UUID;
 public class EventoServiceImpl implements EventoService {
     Logger logger = LogManager.getLogger(EventoServiceImpl.class);
 
-    final EventoRepository eventoRepository;
-    final EnderecoMapper enderecoMapper;
+    private final EventoRepository eventoRepository;
+    private final EnderecoMapper enderecoMapper;
+    private final EventoMapper eventoMapper;
 
-    public EventoServiceImpl(EventoRepository eventoRepository, EnderecoMapper enderecoMapper) {
+    public EventoServiceImpl(EventoRepository eventoRepository, EnderecoMapper enderecoMapper, EventoMapper eventoMapper) {
         this.eventoRepository = eventoRepository;
         this.enderecoMapper = enderecoMapper;
+        this.eventoMapper = eventoMapper;
     }
 
     @Override
@@ -43,8 +46,7 @@ public class EventoServiceImpl implements EventoService {
     @Transactional
     @Override
     public EventoModel save(EventoRecordDto eventoRecordDto) {
-        var eventoModel = new EventoModel();
-        BeanUtils.copyProperties(eventoRecordDto, eventoModel);
+        var eventoModel = eventoMapper.toEntity(eventoRecordDto);
 
         eventoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("America/Recife")));
         eventoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("America/Recife")));
@@ -60,8 +62,6 @@ public class EventoServiceImpl implements EventoService {
         eventoModel.setTipoAdesaoEnum(eventoRecordDto.tipoAdesaoEnum());
 
         if (eventoRecordDto.endereco() != null) {
-            // Converte o EnderecoRecordDto em EnderecoModel (se necessário)
-            // Aqui você precisa de um serviço ou método para converter o DTO para a entidade correspondente
             EnderecoModel enderecoModel = enderecoMapper.toEntity(eventoRecordDto.endereco());
             eventoModel.setEnderecoModel(enderecoModel);
         }
