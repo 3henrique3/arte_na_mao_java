@@ -28,8 +28,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final ArtistaMapper artistaMapper;
     private final EnderecoMapper enderecoMapper;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository1, UsuarioMapper usuarioMapper, ClienteMapper clienteMapper, ArtistaMapper artistaMapper, EnderecoMapper enderecoMapper){
-        this.usuarioRepository = usuarioRepository1;
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, ClienteMapper clienteMapper, ArtistaMapper artistaMapper, EnderecoMapper enderecoMapper){
+        this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.clienteMapper = clienteMapper;
         this.artistaMapper = artistaMapper;
@@ -38,7 +38,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Transactional
     @Override
-    public UsuarioResponseDto createUsuario(UsuarioRecordDto dto) {
+    public UsuarioResponseDto save(UsuarioRecordDto dto) {
         UsuarioModel usuario = usuarioMapper.toEntity(dto);
         EnderecoModel endereco = enderecoMapper.toEntity(dto.endereco());
 
@@ -57,7 +57,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Transactional
     @Override
-    public UsuarioResponseDto updateUsuario(UUID id, UsuarioRecordDto dto) {
+    public UsuarioResponseDto update(UUID id, UsuarioRecordDto dto) {
         UsuarioModel usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
 
@@ -90,7 +90,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Transactional
     @Override
-    public void deleteUsuario(UUID id) {
+    public void delete(UUID id) {
         if (!usuarioRepository.existsById(id)) {
             throw new RuntimeException("Usuário não encontrado com ID: " + id);
         }

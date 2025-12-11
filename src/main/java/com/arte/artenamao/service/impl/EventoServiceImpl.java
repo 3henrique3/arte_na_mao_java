@@ -1,10 +1,10 @@
 package com.arte.artenamao.service.impl;
 
 import com.arte.artenamao.dtos.EventoRecordDto;
+import com.arte.artenamao.mappers.EnderecoMapper;
 import com.arte.artenamao.model.EnderecoModel;
 import com.arte.artenamao.model.EventoModel;
 import com.arte.artenamao.repository.EventoRepository;
-import com.arte.artenamao.service.EnderecoService;
 import com.arte.artenamao.service.EventoService;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
@@ -23,11 +23,11 @@ public class EventoServiceImpl implements EventoService {
     Logger logger = LogManager.getLogger(EventoServiceImpl.class);
 
     final EventoRepository eventoRepository;
-    final EnderecoService enderecoService;
+    final EnderecoMapper enderecoMapper;
 
-    public EventoServiceImpl(EventoRepository eventoRepository, EnderecoService enderecoService) {
+    public EventoServiceImpl(EventoRepository eventoRepository, EnderecoMapper enderecoMapper) {
         this.eventoRepository = eventoRepository;
-        this.enderecoService = enderecoService;
+        this.enderecoMapper = enderecoMapper;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class EventoServiceImpl implements EventoService {
         if (eventoRecordDto.endereco() != null) {
             // Converte o EnderecoRecordDto em EnderecoModel (se necessário)
             // Aqui você precisa de um serviço ou método para converter o DTO para a entidade correspondente
-            EnderecoModel enderecoModel = enderecoService.convertToEntity(eventoRecordDto.endereco());
+            EnderecoModel enderecoModel = enderecoMapper.toEntity(eventoRecordDto.endereco());
             eventoModel.setEnderecoModel(enderecoModel);
         }
         return eventoRepository.save(eventoModel);

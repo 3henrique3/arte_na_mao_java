@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/usuarios")
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
@@ -27,7 +27,7 @@ public class UsuarioController {
         if (usuarioService.existsByEmail(dto.email())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        UsuarioResponseDto response = usuarioService.createUsuario(dto);
+        UsuarioResponseDto response = usuarioService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -52,7 +52,7 @@ public class UsuarioController {
             @PathVariable UUID id,
             @RequestBody @Valid UsuarioRecordDto dto) {
         try {
-            UsuarioResponseDto response = usuarioService.updateUsuario(id, dto);
+            UsuarioResponseDto response = usuarioService.update(id, dto);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -62,7 +62,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable UUID id) {
         try {
-            usuarioService.deleteUsuario(id);
+            usuarioService.delete(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

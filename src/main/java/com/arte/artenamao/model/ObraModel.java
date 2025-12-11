@@ -55,4 +55,7 @@ public class ObraModel implements Serializable {
 
     @OneToMany(mappedBy = "obraModel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CarrinhoModel> obrasCarrinhoModel;
+
+    @OneToMany(mappedBy = "obraModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompraModel> compraObraModel;
 }

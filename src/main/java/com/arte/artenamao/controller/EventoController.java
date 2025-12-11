@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/eventos")
+@CrossOrigin(origins = "*")
 public class EventoController {
     Logger logger = LogManager.getLogger(EventoController.class);
     
@@ -37,7 +38,7 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.OK).body(eventoCadastro);
     }
 
-    @GetMapping("/achar-evento/{eventoId}")
+    @GetMapping("/{eventoId}")
     public ResponseEntity<Object> acharEvento(@PathVariable(value = "eventoId") UUID eventoId) {
         logger.debug("Get: concluído", eventoId);
 
@@ -51,13 +52,13 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.OK).body(eventoService.update(eventoService.findById(eventoId).get(), eventoRecordDto));
     }
 
-    @PatchMapping("/patch/{eventoId}")
+    @PatchMapping("/{eventoId}")
     public ResponseEntity<Object> patchEvento(@PathVariable(value = "eventoId") UUID eventoId, @RequestBody EventoRecordDto eventoRecordDto){
         logger.debug("PATCH: Patch concluído", eventoId);
         return ResponseEntity.status(HttpStatus.OK).body(eventoService.patch(eventoService.findById(eventoId).get(), eventoRecordDto));
     }
 
-    @DeleteMapping("/delete/{eventoId}")
+    @DeleteMapping("/{eventoId}")
     public ResponseEntity<Object> deleteEvento(@PathVariable(value = "eventoId") UUID eventoId) {
         eventoService.delete(eventoService.findById(eventoId).get());
         logger.debug("Delete: Delete concluído", eventoId);
