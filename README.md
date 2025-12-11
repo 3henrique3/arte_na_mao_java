@@ -332,7 +332,7 @@ Este projeto está sob a licença Apache 2.0. Veja o arquivo [LICENSE](LICENSE) 
 
 ## 👥 Autores
 
-- **Eduardo Henrique** - [@Satth]((https://github.com/Satth))
+- **Eduardo Henrique** - [@Satth](https://github.com/Satth)
 - **Pedro Henrique** - [@3henrique3](https://github.com/3henrique3)
 - **Wyldson Marllon** - [@WyldSLA](https://github.com/WyldSLA)
 
