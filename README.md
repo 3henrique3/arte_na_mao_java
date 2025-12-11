@@ -61,7 +61,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/artenamao?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
-    password: sua_senha_aqui
+    password: sua_senha_aqu
 ```
 
 ### 4. Execute a Aplicação
@@ -123,7 +123,7 @@ arte_na_mao_java/
 │   │   │       ├── EventoMapper.java             # MapStruct mapper
 │   │   │       └── UsuarioMapper.java            # MapStruct mapper
 │   │   └── resources/
-│   │       └── application.yml                   # Configurações
+│   │       └── application.yaml                  # Configurações
 │   └── test/
 ├── pom.xml                                       # Dependências Maven
 └── README.md                                     # Documentação
